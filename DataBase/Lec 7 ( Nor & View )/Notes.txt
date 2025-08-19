@@ -1,0 +1,115 @@
+Normalization:
+--------------
+- Step before Implementation
+- Instead of ERD if not possible
+- Process to get the design for database 
+==========================================
+functional dependency ( Must be depend on only 1 PK )
+ايه بيعتمد علي ايه ؟
+1NF --> pass composite, multivalue
+
+2NF --> Must anyone of those pass:
+	1) Primary key is only one column
+	2) Primary key is all of columns
+	3) Support Functional dependency
+
+* If It is not support the 2NF => Must change table design
+Split into 2 tables (each table achieve the pass constraints of 2NF)
+
+3NF --> Must Remove any Transitive Dependency
+       *(functional dependency between two columns and neither of them are Key)*
+*Split the table into two tables
+(cardinality ration 1 to Many - one of the two column is PK in new table)
+=======================================================================================
+way to solve problem:
+----------------------
+1) 0NF 
+	count Number of Headers
+	count Number of Details
+	Details are Multivalue for Headers
+	Make tables
+2) Check 1NF
+3) Check 2NF
+4) Check 3NF
+
+NOTE: MUST BE CHANGES IN EACH STEP YOU GET BETWEEN NORMALIZATION LEVELS.
+==========================================================================
+Indexing:
+----------
+- Target --> Increase Performance of Database.
+- Indexing makes on Columns in tables.
+
+- Clustered (faster)	 			&				 Non Clustered
+    only 1 column
+Sort by default asc by PK
+Made by deafult on PK						create clustered index [name] on [table](column name)
+									Constraint Unique, Default Unique Unclustered
+								create index [name] on [table](column name) --> Non Clustered, Non Unique
+									After Using Alter, It's make Unclustered
+
+
+==============================================================================================================================================
+View:
+------
+Object in .mdf
+
+* You may need the same table selected and need it in the view many times
+	not in the main application you have in applocation u call the view.
+
+
+Create view [name] as
+Select ......
+	View/view_name -> right click -> script alter -> alter view
+
+
+*Select the View*
+	- Select * from [view_name]
+
+*NOTE: You can alias each column in the view to make more secure on data
+and you must call in the select statement the columns with its alias value, not with main column name.
+
+	alter view v6 with schemabinding as
+	select c1 from dbo.t3
+
+	*with schemabinding --> Connect the view with the table*
+
+	can use insert, update and delete while the view has only 1 table selected,
+	not Distinct, and not agg functions.
+
+use with check option after where condition to make the updates on view with the main table update.
+
+alter view v6
+as
+select * from t3
+where c1>1 with check option
+
+insert into v6 values (-2)
+it will not make the value added.
+=======================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

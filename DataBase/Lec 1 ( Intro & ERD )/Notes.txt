@@ -1,0 +1,34 @@
+- Access Database to get Information.
+- File based system
+	only one use it for read, write or any access.
+	Redundency.
+	Separation & Isolation of Data.
+	Icompatible file formats.
+	Frequent Null Values.
+	Program Data Dependence.
+	Ex. (Excel-Word-etc...)
+
+- DBMS
+	second tier to connect between the user and apps.
+	Software Package to facilitate the creation and maintenance of a computerized database.
+	
+- Database System (Admin), Software + Database like frontend (Path, username, pass).
+- Metadata (Structure, # no. Columns, names of columns, #no. Rows).
+- DBMS Pros. ( controlling Redundancy, Restricting Unauth data, Sharing data, Enforcing Integrity constrains, Inconsistency can be avoided(lock file), providing backup and recovery).
+- DBMS Cons. ( Expensive, may be incompatible for another databases )
+- DBMS Architecture ( External Schema1, External Schema2 -> Conceptual Schema(Logical)(ERD) -> Physical Schema(Internal)(Hard Distk)(describes how data is stored and access path needed to access data)). "this is a level of abstraction in a DBMS."
+- Data Independency (Changes Made in the high level of architecture do not effect on lower levels ).
+- Database Admin             -> physical.
+  System Analyst, *DB designer* -> Conceptual.
+  Programmers, Testing unit, Analyze & calculate & Summary Data(BI) -> Before External.
+  End User -> External Schema.
+
+- NoSQL (non-realtional database).
+
+- DB should be used in same (OS, DBMS, Design). - Homogeneous -> if anyone of those 3 are missed will need a migrator.
+- Centralized DB (mainframe, client,...) - Heterogeneous
+- Data Warehouse.
+- Big Data (volume, velocity and variety).
+
+
+----------- Next(Mapping - Setup SQL Server - Queries). -----------

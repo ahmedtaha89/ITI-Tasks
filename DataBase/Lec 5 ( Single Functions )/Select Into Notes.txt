@@ -1,0 +1,22 @@
+- Select Into
+==============
+saving rows and column that has been selected.
+
+Save it into database tables.
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Will Study ...Select Into
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+SELECT fname, lname, pname INTO NewTable
+from employee, project, works_for
+where ssn = essn and pno = pnumber
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+*Difference between
+	Select Into                  and 		Insert Into
+Create the table              			Table Already Exist
+Dynamic Values from another table		Insert Static Values, I am writing
+Only The Statement Run 1 time			Can be run many times with diff values
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+

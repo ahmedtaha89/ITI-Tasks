@@ -1,0 +1,19 @@
+- Schema
+==========
+built in
+read only
+dbo.tablename is a default schema
+can make new schema with your tables you want
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\
+Will Study ...Schema
+\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+should write the schema.tablename if the schema is not the default 'dbo'.
+============================================================================
+Tomorrow will discuss:
+-----------------------
+How to make database using coding not wizard.
+How to make schemas.
+How to get table from schema to another.
+why schema ?

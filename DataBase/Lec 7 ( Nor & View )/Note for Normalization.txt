@@ -1,0 +1,25 @@
+0 Normal :
+- Order (Order_No PK , Order_Date , Cust_No , Cust_Name , Cust_Address , Clerk_No , Clerk_Name,
+ Order_Total)
+- Items (Item_No , Item_Desc , Item_Price , Quantity , Total)
+
+1 Normal :
+- Order (Order_No PK , Order_Date , Cust_No , Cust_Name , Cust_Address , Clerk_No , Clerk_Name)
+- Items ((Order_No FK, Item_No) PK, Item_Desc , Item_Price , Quantity )
+
+2 Normal
+- Order (Order_No PK , Order_Date , Cust_No , Cust_Name , Cust_Address , Clerk_No , Clerk_Name)
+- Items (Item_No PK, Item_Desc , Item_Price ) 
+- Item_Order ((Order_No FK , Item_No FK)PK , Quantity)
+
+3 Normal :
+- Items (Item_No PK, Item_Desc , Item_Price)
+- Item_Order ((Order_No FK , Item_No FK)PK , Quantity)
+- Customers (Cust_No PK , Cust_Name , Cust_Address)
+- Clerk (Clerk_No PK , Clerk_Name)
+- Order (Order_No PK , Order_Date , Cust_No FK , Clerk_No FK)
+
+
+
+
+
