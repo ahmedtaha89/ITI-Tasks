@@ -1,0 +1,272 @@
+	Variables	|			Conditions		|		Loops
+  declare @[name] int	|		If @[name] < 50			|	
+  set @[name] = 5	|			select 'Fail'		|	While @[name] < 9	
+  select @[name]	|		Else If @[name] < 65		|		Begin
+  "Only 1 value"	|			select 'Pass'		|			select @[name]
+  "Default = NULL"	|		Else				|			set @[name] -= @[name]
+			|			'Exc'			|		End
+			|						|	--------------------------------------
+			|		Use Begin and End If more 1 line|	declare @i int = 1, @j int = 0
+			|						|		while @i <6	
+			|						|			begin
+			|						|			set @j += @i
+			|						|			set @i += 1
+			|						|			End
+			|						|		select @i, @j
+			|						|		    -- i=6, j=15
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Functions:
+-----------
+Block of code
+Saved in database .mdf
+
+Types:
+	1- Scalar Functions
+	2- inline Table-Valued Functions (return table, do not have begin and end)
+	3- multistatement Table-Valued Functions
+	4- built-in Functions
+********************************************************************************************************************************
+1- Scalar:
+	function to return 1 value
+
+SYNTAX:
+	create function fun1(@x int, @y int)
+	returns varchar(70) as
+	  Begin
+		-- Your Body
+		declare @var varchar(70)
+		set @var = 'Your Text'
+		return @var
+	  End
+
+	create function salaryCat(@empID int)
+	returns varchar(15) as
+	  Begin
+		declare @empSalary int = 0
+		declare @category varchar(15)
+		@empSalary = (select salary from Employee where ssn = @empID)
+		IF @empSalary is NULL
+			set @category = 'No Category'
+		ELSE IF @empSalary < 20
+			set @category = 'Low Category'
+		ELSE IF @empSalary >= 20 AND @empSalary <= 100
+			set @category = 'Med Category'
+		ELSE
+			set @category = 'High Category'
+		
+	  End
+	
+Calling : select dbo.salaryCat(10102)
+
+VERY IMPORTNAT NOTE : YOU CAN HERE PASS COLUMN NAME TO FUNCTION AND IT WILL EXECUTE
+			VALUE BY VALUE AND RETURN THEM ALL WITHOUT LOOPING
+
+********************************************************************************************************************************
+
+2- inline Table-Valued Functions
+	function to return table
+	function does not use "BEGIN", "END" Statements
+	return Table not values
+
+SYNTAX:
+	function recieves Deptname, and return Employee data for the deptname
+	
+	create fun(@d varchar(20))
+	returns table as 
+	return(
+		-- Only Select Statemtns in body
+		select emp.* from Employee emp
+		join Departments d on d.dept_id = emp.dept_id
+		where d.deptname = @d
+	)
+
+Calling : select dbo.fun('DP1') ==> ERROR !!! : Why ?!
+	  select *  from dbo.fun('Dp1') ==> SUCCESS ... Function return table, and the selection must be after FROM statement.
+
+********************************************************************************************************************************
+3- multistatement Table-Valued Functions
+	Mix between the 2 last types.
+	Accept Begin, End
+	Accept Returning Table, VARIABLE TABLE "Not Existing Table"
+	
+SYNTAX:
+	function recieves 2 numbers, and returns table with numbers between 2 inputs
+	
+	create function fun (@x int, @y int)
+	returns @t table(c1 int) as
+	  Begin
+		while @x <= @y
+			Begin
+				Insert into t values(@x)
+				set @x += 1
+			End
+		return;		
+	  End
+
+Calling : select * from dbo.function(2,5) -- Return Values : 3, 4, 5
+
+********************************************************************************************************************************
+_______________
+How to Call it:
+---------------
+	Open new Query
+	Select dbo.fun1(1,2)
+========================================================================================
+Procedures:
+------------
+Block of code
+Saved in database .mdf
+Execute Action - May return values or not 
+
+SYNTAX:
+	create procedutre p1(@x int) as
+		Begin
+			declare @s int
+			set @s = (select salary from employee where ssn = @x)
+			if @s is NULL
+				select 'Invalid Category'
+			ELSE IF @s < 20
+				select 'Low Category'
+			ELSE IF @s>= 20 AND @s <= 100
+				select 'Med Category'
+			ELSE
+				select 'High Category'
+		End
+
+Calling : exec p1 10102
+
+*NOTE: Procedure can select function But NOT VICE VERSA....*
+********************************************************************************************************************************
+
+SYNTAX:
+	procedure recieves Deptname, and return Employee data for the deptname if count > 3
+	
+	create procedure p2 (@p varchar(20)) as
+		Begin
+			declare @n int
+			@n = (select Count(essn) from project, work_for where pno = punumber and pname = @p)
+			if @n < 3
+				select concat('Number of Employees in project ' , @p ,' is ' , @n)
+			else
+				select e.* from Employee e, Proejct p, works_for w where e.ssn = p.essn and p.pnumber = w.pno and pname = @p
+
+		End
+
+Calling : exec p2 'El Rehab'
+********************************************************************************************************************************
+
+SYNTAX:
+	2 SSN Input, and Replace their Salaries
+	
+	create procedure swapSalaries (@n1 int, @n2 int) as
+		Begin
+			declare @s1 int
+			set @s1 = select salary from employee where ssn = @n1
+			update employee set salary = select salary from employee where ssn = @n2 
+			update employee set salary = @s1 where ssn = @n2 
+		End
+
+Calling : exec swapSalaries (111111, 112233)
+********************************************************************************************************************************
+
+SYNTAX:
+	Add Data into works_for
+
+	create procedure addDataInWorksFor (@e int, @p int, @h int) as
+		Begin
+			Insert into Works_for Values(@e, @p, @h)
+		End	
+
+Calling : exec addDataInWorksFor ()
+
+_______________
+How to Call it:
+---------------
+	Open new Query
+	exec p1 10102
+
+========================================================================================
+Triggers:
+---------
+Block of code
+Saved in database .mdf
+** Don't take parameters
+** Calling by run (Insert, Update, Delete)
+** Must Tell Table name, and Event (after, instead of) with (Insert, Update, Delete)
+** Trigger Is to make something while using (Insert, Update, Delete)
+
+SYNTAX:
+	
+	create	trigger tg1 on [Course] [after] [insert] as
+		Begin
+			select concat('You add course name is : ' + crs_name) from inserted
+		End
+
+*NOTE: Inserted word in the statement is the same columns of the table name written in header of trigger
+	without rows.
+
+Calling : Into Insert Statement
+********************************************************************************************************************************
+
+SYNTAX:
+	
+	alter trigger tg1 on [Course] [instead of] [insert] as
+		Begin
+			select concat('You add course name is : ' + crs_name) from inserted
+		End
+
+instead of --> run code inside trigger instead of insert
+********************************************************************************************************************************
+SYNTAX:
+	-- Insert
+	create trigger tg1 on Employee after insert as
+		Begin
+			insert into emp_history
+			select ssn, NULL, salary, 'Insert', suser_sname(), getdate()
+			from inserted
+		End
+
+	-- Delete
+	create trigger tg1 on Employee after delete as
+		Begin
+			insert into emp_history
+			select ssn, NULL, salary, 'Delete', suser_sname(), getdate()
+			from deleted
+		End
+
+	-- Update
+	create trigger tg1 on Employee after update as
+		Begin
+			insert into emp_history
+			select d.ssn, d.salary, i.salary, 'Delete', suser_sname(), getdate()
+			from inserted i, deleted d
+		End
+
+Calling : Can be Wizard insert.
+
+_______________
+How to Call it:
+---------------
+	open new Query
+	Use Insert Statement
+==================================================================================================================================
+
+==//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\====
+==\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//====
+				       ____________	||||           |     | -------
+				       ------------     | |||          |     |       -----
+				       ||		|   |||        |     |           -----
+				       ||		|    |||       |     |                |
+				       ||		|     |||      |     |                |
+				       ____________	|      |||     |     |                |
+				       ------------	|       |||    |     |                |
+				       ||		|        |||   |     |                |
+				       ||		|         |||  |     |                |
+				       ||		|          ||| |     |           -----
+				       ____________	|           ||||     |       -----
+				       ------------	|            |||     | -------
+==//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\======//\\====
+==\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//======\\//====
+
+
