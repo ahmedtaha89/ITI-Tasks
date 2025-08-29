@@ -1,0 +1,62 @@
+    #welcome_id {
+        font-size: 50px;
+        text-align: center;
+        font-weight: 900;
+    }
+    
+    #welcome_body_page {
+        background-color: #FFC0CB;
+    }
+    
+    #Copyright_id {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    div a {
+        font-size: 40px;
+    }
+    
+    #H1_paragraph_id {
+        color: blue;
+        text-align: center;
+    }
+    
+    div span {
+        text-align: right;
+        color: red
+    }
+    
+    ul li span,
+    li {
+        color: green;
+    }
+    
+    ul #li_1 {
+        color: red;
+    }
+    
+    ul #li_2 {
+        color: blue;
+    }
+    
+    table {
+        border: 15px solid black;
+        border-collapse: 1;
+        width: 400px;
+        text-align: center;
+    }
+    
+    td {
+        border: 2px solid black;
+        font-size: 18px;
+        width: 400px;
+    }
+    
+    tr td {
+        text-align: left;
+    }
+    
+    tr #td_2 {
+        background-image: url('/Day3/Tasks/0515248f-aa44-4916-9942-49124e64ab87.jfif');
+    }
